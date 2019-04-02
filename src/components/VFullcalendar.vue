@@ -22,15 +22,27 @@ export default {
     }
   },
   mounted() {
-    this.calendar = new Calendar(this.$el, {
-      ...this.config,
-      events: this.events
-    });
-
+    this.calendar = new Calendar(this.$el, this.initConfig());
     this.calendar.render();
   },
   destroyed() {
     this.calendar.destroy();
+  },
+  methods: {
+    initConfig() {
+      return {
+        ...this.config,
+        events: this.events,
+        dateClick: this.dateClick,
+        eventClick: this.eventClick
+      };
+    },
+    dateClick(info) {
+      this.$emit("dateClick", info);
+    },
+    eventClick(info) {
+      this.$emit("eventClick", info);
+    }
   }
 };
 </script>

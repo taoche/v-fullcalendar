@@ -3,7 +3,13 @@
     <button @click="handleAddSomeEvents">add some events</button>
     <button @click="handleRemoveSomeEvents">remove some events</button>
     <div class="v-fullcalendar">
-      <VFullcalendar ref="VFullcalendar" :config="config" :events="events"></VFullcalendar>
+      <VFullcalendar
+        ref="VFullcalendar"
+        :config="config"
+        :events="events"
+        @dateClick="handleDateClick"
+        @eventClick="handleEventClick"
+      />
     </div>
   </div>
 </template>
@@ -106,6 +112,14 @@ export default {
       this.events = this.events.filter(item =>
         item.start.indexOf("2019-03-12")
       );
+    },
+    handleDateClick(info) {
+      // eslint-disable-next-line
+      console.log(info);
+    },
+    handleEventClick(info) {
+      // eslint-disable-next-line
+      console.log(info);
     }
   }
 };
