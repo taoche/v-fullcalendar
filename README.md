@@ -1,6 +1,6 @@
 # v-fullcalendar
 
-Built upon [fullcalendar](https://github.com/fullcalendar) `v4.1.0`+ and depends on [Vue.js](https://vuejs.org/) `v2.2.6`+.
+Built upon [fullcalendar](https://github.com/fullcalendar) `v4.0.1`+ and depends on [Vue.js](https://vuejs.org/) `v2.2.6`+.
 
 ## Installation
 
@@ -27,7 +27,7 @@ $ yarn add @fullcalendar/daygrid @fullcalendar/interaction ...
 
 ```js
 import Vue from 'vue'
-import VFullcalendar from 'v-fullcalendar' // refers to components/ECharts.vue in webpack
+import VFullcalendar from 'v-fullcalendar'
 
 // import fullcalendar plugin
 import dayGridPlugin from "@fullcalendar/daygrid";
