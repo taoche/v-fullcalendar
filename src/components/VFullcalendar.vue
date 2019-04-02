@@ -5,46 +5,26 @@
 <script>
 import { Calendar } from "@fullcalendar/core";
 
-const HANDLE_EVENT = [
-  "viewSkeletonRender",
-  "datesRender",
-  "datesDestroy",
-  "dayRender",
-  "windowResize",
-  "dateClick",
-  "eventClick",
-  "eventMouseEnter",
-  "eventMouseLeave",
-  "select",
-  "unselect",
-  "eventPositioned",
-  "eventDestroy",
-  "eventDragStart",
-  "eventDragStop",
-  "eventDrop",
-  "eventResizeStart",
-  "eventResizeStop",
-  "eventReceive",
-  "eventResize",
-  "eventLeave",
-  "eventResizableFromStart",
-  "allDayMaintainDuration",
-  "drop"
-];
+import { isValidKey } from "./options";
+import { validFullcalendarEvents } from "./events";
 
 export default {
   name: "VFullcalendar",
   props: {
     config: {
-      type: Object
+      type: Object,
+      required: true
     },
     events: {
-      type: Array
+      type: Array,
+      required: true
     }
   },
   computed: {
     registerEvent() {
-      return HANDLE_EVENT.filter(item => this.$listeners.hasOwnProperty(item));
+      return validFullcalendarEvents.filter(item =>
+        this.$listeners.hasOwnProperty(item)
+      );
     }
   },
   watch: {
@@ -56,6 +36,9 @@ export default {
       this.calendar.destroy();
       this.instance();
     }
+  },
+  created() {
+    this.validConfig();
   },
   mounted() {
     this.instance();
@@ -87,6 +70,17 @@ export default {
         }),
         {}
       );
+    },
+    validConfig() {
+      Object.keys(this.config).forEach(key => {
+        if (!isValidKey(key)) {
+          if (process.env.NODE_ENV !== "production") {
+            throw new Error(
+              `[v-fullcalendar] your config has not verifiable literals ${key}`
+            );
+          }
+        }
+      });
     }
   }
 };
