@@ -6,5 +6,5 @@ config
 demo
 node_modules
 src
+public
 static
-index.html
