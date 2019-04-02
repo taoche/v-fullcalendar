@@ -5,6 +5,12 @@
 <script>
 import { Calendar } from "@fullcalendar/core";
 
+const EVENTS_HANDLE_EVENT = [
+  "eventClick",
+  "eventMouseEnter",
+  "eventMouseLeave"
+];
+
 export default {
   name: "VFullcalendar",
   props: {
@@ -34,14 +40,19 @@ export default {
         ...this.config,
         events: this.events,
         dateClick: this.dateClick,
-        eventClick: this.eventClick
+        ...this.registerEventHandle()
       };
     },
     dateClick(info) {
       this.$emit("dateClick", info);
     },
-    eventClick(info) {
-      this.$emit("eventClick", info);
+    registerEventHandle() {
+      return EVENTS_HANDLE_EVENT.reduce((pre, next) => {
+        return {
+          ...pre,
+          [next]: info => this.$emit(next, info)
+        };
+      }, {});
     }
   }
 };

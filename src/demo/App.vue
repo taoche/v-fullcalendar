@@ -9,6 +9,7 @@
         :events="events"
         @dateClick="handleDateClick"
         @eventClick="handleEventClick"
+        @eventMouseEnter="handleEventMouseEnter"
       />
     </div>
   </div>
@@ -115,11 +116,15 @@ export default {
     },
     handleDateClick(info) {
       // eslint-disable-next-line
-      console.log(info);
+      console.log("dateClick", info);
     },
     handleEventClick(info) {
       // eslint-disable-next-line
-      console.log(info);
+      console.log("eventClick", info);
+    },
+    handleEventMouseEnter(info) {
+      // eslint-disable-next-line
+      console.log("eventMouseEnter", info);
     }
   }
 };
