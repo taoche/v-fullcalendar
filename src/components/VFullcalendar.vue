@@ -5,10 +5,31 @@
 <script>
 import { Calendar } from "@fullcalendar/core";
 
-const EVENTS_HANDLE_EVENT = [
+const HANDLE_EVENT = [
+  "viewSkeletonRender",
+  "datesRender",
+  "datesDestroy",
+  "dayRender",
+  "windowResize",
+  "dateClick",
   "eventClick",
   "eventMouseEnter",
-  "eventMouseLeave"
+  "eventMouseLeave",
+  "select",
+  "unselect",
+  "eventPositioned",
+  "eventDestroy",
+  "eventDragStart",
+  "eventDragStop",
+  "eventDrop",
+  "eventResizeStart",
+  "eventResizeStop",
+  "eventReceive",
+  "eventResize",
+  "eventLeave",
+  "eventResizableFromStart",
+  "allDayMaintainDuration",
+  "drop"
 ];
 
 export default {
@@ -25,32 +46,37 @@ export default {
     events(val) {
       this.calendar.getEvents().forEach(event => event.remove());
       val.forEach(item => this.calendar.addEvent(item));
+    },
+    config() {
+      this.calendar.destroy();
+      this.instance()
     }
   },
   mounted() {
-    this.calendar = new Calendar(this.$el, this.initConfig());
-    this.calendar.render();
+    this.instance()
   },
-  destroyed() {
+  beforeDestroy() {
     this.calendar.destroy();
   },
   methods: {
+    instance() {
+      const calendar = new Calendar(this.$el, this.initConfig());
+      calendar.render();
+
+      this.calendar = calendar;
+    },
     initConfig() {
       return {
         ...this.config,
         events: this.events,
-        dateClick: this.dateClick,
         ...this.registerEventHandle()
       };
     },
-    dateClick(info) {
-      this.$emit("dateClick", info);
-    },
     registerEventHandle() {
-      return EVENTS_HANDLE_EVENT.reduce((pre, next) => {
+      return HANDLE_EVENT.reduce((pre, next) => {
         return {
           ...pre,
-          [next]: info => this.$emit(next, info)
+          [next]: (...args) => this.$emit(next, ...args)
         };
       }, {});
     }
