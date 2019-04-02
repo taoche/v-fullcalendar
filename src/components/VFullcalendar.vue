@@ -76,7 +76,9 @@ export default {
       return HANDLE_EVENT.reduce((pre, next) => {
         return {
           ...pre,
-          [next]: (...args) => this.$emit(next, ...args)
+          [next]: (...args) => {
+            this.$emit(next, ...args);
+          }
         };
       }, {});
     }
