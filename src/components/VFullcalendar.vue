@@ -49,11 +49,11 @@ export default {
     },
     config() {
       this.calendar.destroy();
-      this.instance()
+      this.instance();
     }
   },
   mounted() {
-    this.instance()
+    this.instance();
   },
   beforeDestroy() {
     this.calendar.destroy();
