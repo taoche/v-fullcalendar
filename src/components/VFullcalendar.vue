@@ -42,6 +42,11 @@ export default {
       type: Array
     }
   },
+  computed: {
+    registerEvent() {
+      return HANDLE_EVENT.filter(item => this.$listeners.hasOwnProperty(item));
+    }
+  },
   watch: {
     events(val) {
       this.calendar.getEvents().forEach(event => event.remove());
@@ -73,14 +78,15 @@ export default {
       };
     },
     registerEventHandle() {
-      return HANDLE_EVENT.reduce((pre, next) => {
-        return {
+      return this.registerEvent.reduce(
+        (pre, next) => ({
           ...pre,
           [next]: (...args) => {
             this.$emit(next, ...args);
           }
-        };
-      }, {});
+        }),
+        {}
+      );
     }
   }
 };
