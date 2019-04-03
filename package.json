@@ -1,6 +1,6 @@
 {
   "name": "v-fullcalendar",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "The fullcalendar v4 project for vue.",
   "main": "dist/v-fullcalendar.js",
   "scripts": {
