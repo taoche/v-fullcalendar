@@ -5,6 +5,7 @@
 <script>
 import { Calendar } from "@fullcalendar/core";
 
+import { assert } from "./util";
 import { isValidKey } from "./options";
 import { validFullcalendarEvents } from "./events";
 
@@ -24,6 +25,17 @@ export default {
     registerEvent() {
       return validFullcalendarEvents.filter(item =>
         this.$listeners.hasOwnProperty(item)
+      );
+    },
+    registerEventHandle() {
+      return this.registerEvent.reduce(
+        (pre, next) => ({
+          ...pre,
+          [next]: (...args) => {
+            this.$emit(next, ...args);
+          }
+        }),
+        {}
       );
     }
   },
@@ -57,28 +69,13 @@ export default {
       return {
         ...this.config,
         events: this.events,
-        ...this.registerEventHandle()
+        ...this.registerEventHandle
       };
-    },
-    registerEventHandle() {
-      return this.registerEvent.reduce(
-        (pre, next) => ({
-          ...pre,
-          [next]: (...args) => {
-            this.$emit(next, ...args);
-          }
-        }),
-        {}
-      );
     },
     validConfig() {
       Object.keys(this.config).forEach(key => {
         if (!isValidKey(key)) {
-          if (process.env.NODE_ENV !== "production") {
-            throw new Error(
-              `[v-fullcalendar] your config has not verifiable literals ${key}`
-            );
-          }
+          assert(`your config has not verifiable literals ${key}`);
         }
       });
     }
