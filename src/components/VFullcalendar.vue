@@ -72,6 +72,12 @@ export default {
         ...this.registerEventHandle
       };
     },
+    gotoDate(date) {
+      this.calendar.gotoDate(date);
+    },
+    setOption(option) {
+      this.calendar.setOption(option);
+    },
     validConfig() {
       Object.keys(this.config).forEach(key => {
         if (!isValidKey(key)) {
