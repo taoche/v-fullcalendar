@@ -72,11 +72,11 @@ export default {
         ...this.registerEventHandle
       };
     },
-    gotoDate(date) {
-      this.calendar.gotoDate(date);
+    getView() {
+      return this.calendar.view
     },
-    setOption(option) {
-      this.calendar.setOption(option);
+    gotoDate(date) {
+      this.calendar.gotoDate(date)
     },
     validConfig() {
       Object.keys(this.config).forEach(key => {
