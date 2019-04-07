@@ -73,10 +73,10 @@ export default {
       };
     },
     getView() {
-      return this.calendar.view
+      return this.calendar.view;
     },
     gotoDate(date) {
-      this.calendar.gotoDate(date)
+      this.calendar.gotoDate(date);
     },
     validConfig() {
       Object.keys(this.config).forEach(key => {
