@@ -40,9 +40,26 @@ export default {
     }
   },
   watch: {
-    events(val) {
-      this.calendar.getEvents().forEach(event => event.remove());
-      val.forEach(item => this.calendar.addEvent(item));
+    events(newVal, oldVal) {
+      if (newVal.every(item => item.id)) {
+        const newIds = newVal.map(item => item.id);
+        const oldIds = oldVal.map(item => item.id);
+        const increased = newVal.filter(item => !oldIds.includes(item.id));
+        const removed = oldVal.filter(oldItem => !newIds.includes(oldItem.id));
+
+        if (increased.length) {
+          increased.forEach(item => {
+            this.calendar.getEventById(item.id).remove();
+          });
+        }
+
+        if (removed.length) {
+          removed.forEach(item => this.calendar.addEvent(item));
+        }
+      } else {
+        this.calendar.getEvents().forEach(event => event.remove());
+        newVal.forEach(item => this.calendar.addEvent(item));
+      }
     },
     config() {
       this.calendar.destroy();
