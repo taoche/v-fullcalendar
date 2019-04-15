@@ -47,15 +47,11 @@ export default {
         const increased = newVal.filter(item => !oldIds.includes(item.id));
         const removed = oldVal.filter(oldItem => !newIds.includes(oldItem.id));
 
-        if (removed.length) {
-          removed.forEach(item => {
-            this.calendar.getEventById(item.id).remove();
-          });
-        }
+        removed.forEach(item => {
+          this.calendar.getEventById(item.id).remove();
+        });
 
-        if (increased.length) {
-          increased.forEach(item => this.calendar.addEvent(item));
-        }
+        increased.forEach(item => this.calendar.addEvent(item));
       } else {
         this.calendar.getEvents().forEach(event => event.remove());
         newVal.forEach(item => this.calendar.addEvent(item));
