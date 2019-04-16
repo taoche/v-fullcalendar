@@ -37,29 +37,17 @@ export default {
         }),
         {}
       );
+    },
+    initConfig() {
+      return {
+        ...this.config,
+        events: this.events
+      };
     }
   },
   watch: {
-    events(newVal, oldVal) {
-      if (newVal.every(item => item.id)) {
-        const newIds = newVal.map(item => item.id);
-        const oldIds = oldVal.map(item => item.id);
-        const increased = newVal.filter(item => !oldIds.includes(item.id));
-        const removed = oldVal.filter(oldItem => !newIds.includes(oldItem.id));
-
-        removed.forEach(item => {
-          this.calendar.getEventById(item.id).remove();
-        });
-
-        increased.forEach(item => this.calendar.addEvent(item));
-      } else {
-        this.calendar.getEvents().forEach(event => event.remove());
-        newVal.forEach(item => this.calendar.addEvent(item));
-      }
-    },
-    config() {
-      this.calendar.destroy();
-      this.instance();
+    initConfig(config) {
+      this.calendar.resetOptions({ ...config, ...this.registerEventHandle });
     }
   },
   created() {
@@ -73,17 +61,13 @@ export default {
   },
   methods: {
     instance() {
-      const calendar = new Calendar(this.$el, this.initConfig());
-      calendar.render();
-
-      this.calendar = calendar;
-    },
-    initConfig() {
-      return {
-        ...this.config,
-        events: this.events,
+      const calendar = new Calendar(this.$el, {
+        ...this.initConfig,
         ...this.registerEventHandle
-      };
+      });
+
+      calendar.render();
+      this.calendar = calendar;
     },
     getView() {
       return this.calendar.view;
